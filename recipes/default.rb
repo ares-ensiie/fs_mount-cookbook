@@ -9,6 +9,16 @@
 #
 
 node['fs_mount']['filesystems'].each do |fs|
+
+  unless Dir.exists? fs.mountpoint
+    directory fs.mountpoint do
+      owner "root"
+      group "root"
+      mode 0755
+      action :create
+    end
+  end
+
   mount fs.mountpoint do
     device fs.device
     fstype fs.fstype
